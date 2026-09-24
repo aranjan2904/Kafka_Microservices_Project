@@ -20,6 +20,8 @@ public class PaymentConsumer {
 	@KafkaListener(topics = "order-created", groupId = "payment-service-group")
 	public void consumeOrderCreated(OrderCreatedEvent event) {
 		
+		System.out.println("order-created event received");
+		
 		paymentService.processPayment(event);
 		
 	}

@@ -59,6 +59,8 @@ public class PaymentService {
             successEvent.setPaymentStatus(savedPayment.getPaymentStatus());
 
             paymentProducer.sendPaymentSuccess(successEvent);
+            
+            System.out.println("PaymentSuccess event sent");
 
         } else {
 
@@ -74,6 +76,8 @@ public class PaymentService {
             failedEvent.setReason("INSUFFICIENT_FUNDS");
 
             paymentProducer.sendPaymentFailed(failedEvent);
+            
+            System.out.println("PaymentFailed event sent");
         }
         
         

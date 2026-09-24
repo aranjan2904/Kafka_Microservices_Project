@@ -57,6 +57,9 @@ public class OrderService {
 		orderProducer.sendOrderCreatedEvent(event);
 		
 		
+		System.out.println("OrderCreated Event sent");
+		
+		
 		OrderResponse response = new OrderResponse();
 		
 		response.setOrderId(order.getId());
