@@ -26,6 +26,11 @@ public class PaymentService {
 	
 	public void processPayment(OrderCreatedEvent event) {
 		
+		if (paymentRepository.existsByEventId(event.getEventId())) {
+		    System.out.println("Duplicate event ignored: " + event.getEventId());
+		    return;
+		}
+		
 		Payment payment = new Payment();
 		
 		payment.setOrderId(event.getOrderId());

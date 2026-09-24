@@ -57,7 +57,7 @@ public class OrderService {
 		orderProducer.sendOrderCreatedEvent(event);
 		
 		
-		System.out.println("OrderCreated Event sent");
+		System.out.println("OrderCreated Event sent: " + event);
 		
 		
 		OrderResponse response = new OrderResponse();

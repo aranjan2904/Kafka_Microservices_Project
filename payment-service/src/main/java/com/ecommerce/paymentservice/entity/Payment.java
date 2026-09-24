@@ -10,8 +10,17 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @Column(unique = true, nullable = false)
+    private String eventId;
 
-    private Long orderId;
+    public String getEventId() {
+		return eventId;
+	}
+	public void setEventId(String eventId) {
+		this.eventId = eventId;
+	}
+	private Long orderId;
     private Long customerId;
 
     private BigDecimal amount;
