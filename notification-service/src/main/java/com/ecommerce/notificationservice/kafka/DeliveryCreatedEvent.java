@@ -3,11 +3,19 @@ package com.ecommerce.notificationservice.kafka;
 public class DeliveryCreatedEvent {
 
     private String eventId;
+
     private String eventType;
+
     private Long orderId;
+
     private Long customerId;
-    private String trackingId;
+
+    private String trackingNumber;
+
+    private String deliveryAddress;
+
     private String deliveryStatus;
+
 
     public String getEventId() {
         return eventId;
@@ -17,6 +25,7 @@ public class DeliveryCreatedEvent {
         this.eventId = eventId;
     }
 
+
     public String getEventType() {
         return eventType;
     }
@@ -24,6 +33,7 @@ public class DeliveryCreatedEvent {
     public void setEventType(String eventType) {
         this.eventType = eventType;
     }
+
 
     public Long getOrderId() {
         return orderId;
@@ -33,6 +43,7 @@ public class DeliveryCreatedEvent {
         this.orderId = orderId;
     }
 
+
     public Long getCustomerId() {
         return customerId;
     }
@@ -41,13 +52,24 @@ public class DeliveryCreatedEvent {
         this.customerId = customerId;
     }
 
-    public String getTrackingId() {
-        return trackingId;
+
+    public String getTrackingNumber() {
+        return trackingNumber;
     }
 
-    public void setTrackingId(String trackingId) {
-        this.trackingId = trackingId;
+    public void setTrackingNumber(String trackingNumber) {
+        this.trackingNumber = trackingNumber;
     }
+
+
+    public String getDeliveryAddress() {
+        return deliveryAddress;
+    }
+
+    public void setDeliveryAddress(String deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
+    }
+
 
     public String getDeliveryStatus() {
         return deliveryStatus;

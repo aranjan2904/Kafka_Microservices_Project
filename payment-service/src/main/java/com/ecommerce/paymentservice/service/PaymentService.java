@@ -14,31 +14,32 @@ import com.ecommerce.paymentservice.repository.PaymentRepository;
 
 @Service
 public class PaymentService {
-	
-	private final PaymentRepository paymentRepository;
-	private final PaymentProducer paymentProducer;
 
-	public PaymentService(PaymentRepository paymentRepository, PaymentProducer paymentProducer) {
-		super();
-		this.paymentRepository = paymentRepository;
-		this.paymentProducer = paymentProducer;
-	}
-	
-	public void processPayment(OrderCreatedEvent event) {
-		
-		if (paymentRepository.existsByEventId(event.getEventId())) {
-		    System.out.println("Duplicate event ignored: " + event.getEventId());
-		    return;
-		}
-		
-		Payment payment = new Payment();
-		
-		payment.setOrderId(event.getOrderId());
+    private final PaymentRepository paymentRepository;
+    private final PaymentProducer paymentProducer;
+
+    public PaymentService(PaymentRepository paymentRepository,
+                          PaymentProducer paymentProducer) {
+        super();
+        this.paymentRepository = paymentRepository;
+        this.paymentProducer = paymentProducer;
+    }
+
+    public void processPayment(OrderCreatedEvent event) {
+
+        // Idempotency check
+        if (paymentRepository.existsByEventId(event.getEventId())) {
+            System.out.println("Duplicate event ignored: " + event.getEventId());
+            return;
+        }
+
+        Payment payment = new Payment();
+
+        payment.setEventId(event.getEventId());
+        payment.setOrderId(event.getOrderId());
         payment.setCustomerId(event.getCustomerId());
         payment.setAmount(event.getAmount());
-        
         payment.setPaymentId("TXN-" + UUID.randomUUID());
-        
         payment.setPaymentMethod("UPI");
 
         if (event.getAmount().compareTo(new BigDecimal("50000")) > 0) {
@@ -46,10 +47,9 @@ public class PaymentService {
         } else {
             payment.setPaymentStatus("SUCCESS");
         }
-        
-        Payment savedPayment =  paymentRepository.save(payment);
-        
-        
+
+        Payment savedPayment = paymentRepository.save(payment);
+
         if ("SUCCESS".equals(savedPayment.getPaymentStatus())) {
 
             PaymentSuccessEvent successEvent = new PaymentSuccessEvent();
@@ -64,7 +64,7 @@ public class PaymentService {
             successEvent.setPaymentStatus(savedPayment.getPaymentStatus());
 
             paymentProducer.sendPaymentSuccess(successEvent);
-            
+
             System.out.println("PaymentSuccess event sent");
 
         } else {
@@ -81,12 +81,8 @@ public class PaymentService {
             failedEvent.setReason("INSUFFICIENT_FUNDS");
 
             paymentProducer.sendPaymentFailed(failedEvent);
-            
+
             System.out.println("PaymentFailed event sent");
         }
-        
-        
-        
-	}
-
+    }
 }

@@ -15,9 +15,13 @@ public class Delivery {
     private Long id;
 
     private Long orderId;
+
     private Long customerId;
+
     private String deliveryAddress;
-    private String trackingId;
+
+    private String trackingNumber;
+
     private String deliveryStatus;
 
     public Long getId() {
@@ -48,12 +52,12 @@ public class Delivery {
         this.deliveryAddress = deliveryAddress;
     }
 
-    public String getTrackingId() {
-        return trackingId;
+    public String getTrackingNumber() {
+        return trackingNumber;
     }
 
-    public void setTrackingId(String trackingId) {
-        this.trackingId = trackingId;
+    public void setTrackingNumber(String trackingNumber) {
+        this.trackingNumber = trackingNumber;
     }
 
     public String getDeliveryStatus() {
