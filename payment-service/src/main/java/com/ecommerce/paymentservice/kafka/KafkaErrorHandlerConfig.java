@@ -1,5 +1,6 @@
 package com.ecommerce.paymentservice.kafka;
 
+import org.apache.kafka.common.TopicPartition;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -15,7 +16,14 @@ public class KafkaErrorHandlerConfig {
             KafkaTemplate<String, Object> kafkaTemplate) {
 
         DeadLetterPublishingRecoverer recoverer =
-                new DeadLetterPublishingRecoverer(kafkaTemplate);
+                new DeadLetterPublishingRecoverer(
+                        kafkaTemplate,
+                        (record, exception) ->
+                                new TopicPartition(
+                                        "payment-success.DLT",
+                                        record.partition()
+                                )
+                );
 
         FixedBackOff backOff = new FixedBackOff(1000L, 2L);
 

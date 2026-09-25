@@ -26,7 +26,7 @@ public class PaymentService {
     }
 
     public void processPayment(OrderCreatedEvent event) {
-
+    	
         // Idempotency check
         if (paymentRepository.existsByEventId(event.getEventId())) {
             System.out.println("Duplicate event ignored: " + event.getEventId());
