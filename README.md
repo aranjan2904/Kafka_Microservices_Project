@@ -95,6 +95,4 @@ payment-service/
 delivery-service/
 notification-service/
 postman/
-screenshots/
-docker-compose.yml
 ```
